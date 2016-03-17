@@ -6,11 +6,20 @@ router.get('/facebook',
   passport.authenticate('facebook'));
 
 router.get('/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/' }),
+  passport.authenticate('facebook', { failureRedirect: '/error' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    console.log('logined');
     res.redirect('/');
   });
 
+router.route('/users/me').get(
+  function(req, res) {
+  	console.log('-------------- ------------------');
+  	console.log(req.user);
+  	if (req.user) {
+    	res.json(req.user);
+    } else {
+    	res.json(null);
+    }
+  });
 module.exports = router;

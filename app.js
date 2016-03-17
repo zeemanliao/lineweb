@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook');
@@ -26,6 +27,10 @@ app.set('view engine', 'ejs');
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
+  app.use(session({ 
+    secret: 'zeemanliao super',
+    resave: false,
+    saveUninitialized: true }));
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(passport.initialize());
   app.use(passport.session());
@@ -68,14 +73,32 @@ passport.use(new FacebookStrategy({
     clientSecret: cfg.oauth.facebook.secret,
     callbackURL: cfg.oauth.facebook.url
   },
+/* profile
+{ id: '1139908889355735',
+  username: undefined,
+  displayName: '廖哥',
+  name:
+   { familyName: undefined,
+     givenName: undefined,
+     middleName: undefined },
+  gender: undefined,
+  profileUrl: undefined,
+  provider: 'facebook',
+  _raw: '{"name":"\\u5ed6\\u54e5","id":"1139908889355735"}',
+  _json: { name: '廖哥', id: '1139908889355735' } }
+*/
   function(accessToken, refreshToken, profile, cb) {
     var err = null;
-    return cb(err, profile.id);
+    var user = {
+      id:profile.id,
+      username:profile.displayName,
+      source:'facebook'
+    };
+    return cb(err,user);
   }
 ));
 
 passport.serializeUser(function(user, done) {
-  console.log(user);
   done(null, user);
 });
 

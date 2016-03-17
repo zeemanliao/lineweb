@@ -58,7 +58,7 @@
               <div class="col-md-12">
  
                 <div class="btn-group-vertical">
-<a class="btn btn-lg btn-block btn-social btn-facebook">
+<a href="/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
     <span class="fa fa-facebook"></span> Sign in with Facebook
   </a>
 <a class="btn btn-lg btn-block btn-social btn-google">
@@ -86,20 +86,3 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1043915045683455',
-      xfbml      : true,
-      version    : 'v2.5'
-    });
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
