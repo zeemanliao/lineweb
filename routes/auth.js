@@ -12,14 +12,4 @@ router.get('/facebook/callback',
     res.redirect('/');
   });
 
-router.route('/users/me').get(
-  function(req, res) {
-  	console.log('-------------- ------------------');
-  	console.log(req.user);
-  	if (req.user) {
-    	res.json(req.user);
-    } else {
-    	res.json(null);
-    }
-  });
 module.exports = router;
