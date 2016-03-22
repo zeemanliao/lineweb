@@ -9,7 +9,9 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
+
 var FacebookStrategy = require('passport-facebook');
+var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -19,7 +21,7 @@ var app = express();
 
 var appuse = require('./appuse');
 
-var cfg = require('./config-test.json');
+var cfg = require('./config.json');
 
 //mongo db connect
 mongoose.connect('mongodb://localhost/linenet');
@@ -53,7 +55,8 @@ app.set('view engine', 'ejs');
 
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
-  var err = new Error('Not Found');
+
+  //var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -71,7 +74,8 @@ app.locals.author = {
 passport.use(new FacebookStrategy({
     clientID: cfg.oauth.facebook.id,
     clientSecret: cfg.oauth.facebook.secret,
-    callbackURL: cfg.oauth.facebook.url
+    callbackURL: cfg.oauth.facebook.callbackURL,
+     profileFields: ['id', 'email','displayName','picture', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']
   },
 /* profile
 { id: '1139908889355735',
@@ -89,16 +93,54 @@ passport.use(new FacebookStrategy({
 */
   function(accessToken, refreshToken, profile, cb) {
     var err = null;
+    console.log(profile);
     var user = {
       id:profile.id,
       name:profile.displayName,
       source:'facebook',
-      photo:'http://graph.facebook.com/'+profile.id+'/picture'
+      photo:profile.photos[0].value //'http://graph.facebook.com/'+profile.id+'/picture'
     };
     return cb(err,user);
   }
 ));
-
+/*
+{ kind: 'plus#person',
+     etag: '"4OZ_Kt6ujOh1jaML_U6RM6APqoE/SYsOtR6FRFFflr6UuOcHc8821LA"',
+     gender: 'male',
+     emails: [ [Object] ],
+     objectType: 'person',
+     id: '103113602950397809948',
+     displayName: '廖哥',
+     name: { familyName: '廖', givenName: '哥' },
+     url: 'https://plus.google.com/103113602950397809948',
+     image:
+      { url: 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50',
+        isDefault: true },
+     isPlusUser: true,
+     language: 'zh_TW',
+     ageRange: { min: 21 },
+     circledByCount: 7,
+     verified: false } }
+     */
+passport.use(new GoogleStrategy({
+    clientID: cfg.oauth.google.id,
+    clientSecret: cfg.oauth.google.secret,
+    callbackURL: cfg.oauth.google.callbackURL,
+    passReqToCallback : true
+  },
+  function(request, accessToken, refreshToken, profile, done) {
+    
+        var user = {
+          id:profile.id,
+          name:profile.displayName,
+          source:'google',
+          email:profile.email,
+          photo:profile.photos[0].value
+        };
+    return done(null, user);
+    
+  }
+));
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
