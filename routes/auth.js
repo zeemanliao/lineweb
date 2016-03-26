@@ -24,6 +24,25 @@ router.get('/google/callback',
 		failureRedirect: '/'
 }));
 
+router.get('/twitter',
+  passport.authenticate('twitter'));
+
+router.get('/twitter/callback', 
+  passport.authenticate('twitter', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+router.get('/github',
+  passport.authenticate('github'));
+ 
+router.get('/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home. 
+    res.redirect('/');
+  });
 router.get('/logout',
 	function(req, res) {
 	req.logout();

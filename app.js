@@ -11,7 +11,8 @@ var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
 
 var FacebookStrategy = require('passport-facebook');
-var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+var GoogleStrategy = require('passport-google-oauth2' ).Strategy;
+var TwitterStrategy = require('passport-twitter');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -96,7 +97,7 @@ passport.use(new FacebookStrategy({
     console.log(profile);
     var user = {
       id:profile.id,
-      name:profile.displayName,
+      name:profile.displayName || profile.username,
       source:'facebook',
       photo:profile.photos[0].value //'http://graph.facebook.com/'+profile.id+'/picture'
     };
@@ -132,13 +133,50 @@ passport.use(new GoogleStrategy({
     
         var user = {
           id:profile.id,
-          name:profile.displayName,
+          name:profile.displayName || profile.username,
           source:'google',
           email:profile.email,
           photo:profile.photos[0].value
         };
     return done(null, user);
     
+  }
+));
+
+passport.use(new TwitterStrategy({
+    consumerKey: cfg.oauth.twitter.id,
+    consumerSecret: cfg.oauth.twitter.secret,
+    callbackURL: cfg.oauth.twitter.callbackURL
+  },
+  function(token, tokenSecret, profile, done) {
+
+    var user = {
+          id:profile.id,
+          name:profile.displayName || profile.username,
+          source:'twitter',
+          email:profile.email,
+          photo:profile.photos[0].value
+        };
+      return done(null, user);
+  }
+));
+
+var GitHubStrategy = require('passport-github').Strategy;
+passport.use(new GitHubStrategy({
+    clientID: cfg.oauth.github.id,
+    clientSecret: cfg.oauth.github.secret,
+    callbackURL: cfg.oauth.github.callbackURL
+  },
+  function(accessToken, refreshToken, profile, done) {
+
+    var user = {
+          id:profile.id,
+          name:profile.displayName || profile.username,
+          source:'github',
+          email:profile.email,
+          photo:profile.photos[0].value
+        };
+      return done(null, user);
   }
 ));
 passport.serializeUser(function(user, done) {
