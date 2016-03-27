@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -e js -i views -i nod_modeules -i public -d 3 ./bin/www"
+    "start": "nodemon -e js -i views -i source -i nod_modeules -i public -d 3 ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -21,5 +21,10 @@
     "passport-google-oauth2": "^0.1.6",
     "passport-twitter": "^1.0.4",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-less": "^3.0.5",
+    "gulp-watch-less": "^1.0.1"
   }
 }

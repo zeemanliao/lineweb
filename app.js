@@ -1,3 +1,4 @@
+var isDEV = process.env.NODE_ENV !== 'production';
 
 var express = require('express');
 var path = require('path');
@@ -24,6 +25,10 @@ var appuse = require('./appuse');
 
 var cfg = require('./config.json');
 
+
+if (isDEV) {
+
+}
 //mongo db connect
 mongoose.connect('mongodb://localhost/linenet');
 
