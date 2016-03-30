@@ -25,7 +25,7 @@ emit : function(eventName, data) {
 
 		}
 	}
-}
+};
 
 var IDList = {
 	signFrame:"login-frame",
@@ -36,13 +36,13 @@ var IDList = {
 
 var UIObject = function(id) {
 	this.id = id;
-}
+};
 UIObject.prototype.show = function() {
 	$('#'+this.id).show();
 };
 UIObject.prototype.hide = function() {
 	$('#'+this.id).hide();
-}
+};
 
 function init() {
 	
@@ -58,7 +58,8 @@ var loginUI = {
 	Sign:new UIObject(IDList.signFrame),
 	User:new UIObject(IDList.userFrame)
 };
-init();
+});
+//init();\
 /*
   (function(d) {
 	  

@@ -26,6 +26,7 @@ var appuse = require('./appuse');
 var cfg = require('./config.json');
 
 
+app.locals.config = cfg;
 if (isDEV) {
 
 }
@@ -66,15 +67,6 @@ app.use(function(err, req, res, next) {
   err.status = 404;
   next(err);
 });
-app.locals.site ={
-        title: 'Linenet',
-        description: 'A boilerplate for a simple web application with a Node.JS and Express backend, with an EJS template with using Twitter Bootstrap.'
-    };
-app.locals.author = {
-        name: 'Zeeman Lio',
-        contact: 'zeeman.liao@gmail.com'
-    };
-
 
 
 passport.use(new FacebookStrategy({
@@ -191,4 +183,5 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
+
 module.exports = app;

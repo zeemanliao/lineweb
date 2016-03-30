@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="<%- config.lang%>">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+
+    <header>
+        <% include ../partials/header %>
+    </header>
+    <!-- Begin page content -->
+    <div class="container">
+      <div class="page-header">
+        <h1>Chat Room</h1>
+      </div>
+<style>
+  .chat-name {
+    color:green;
+  }
+  .chat-message {
+    color:blue;
+    border-radius:2px;
+    float: right;
+    position: relative;
+    text-decoration: none;
+    padding: 0 10px;
+    -webkit-transition: padding 0.1s linear;
+    -moz-transition: padding 0.1s linear;
+    -ms-transition: padding 0.1s linear;
+    -o-transition: padding 0.1s linear;
+  }
+.chat-message.left {
+     box-shadow:2px 2px 2px 2px #ccc;
+     border-left: 5px solid white;
+}
+.chat-message.right {
+    box-shadow:-2px 2px 2px 2px #ccc;
+    border-right: 5px solid white;
+}
+
+.chat-message:before,
+.chat-message:after {
+  content: "";
+  position: absolute;
+  top: 25%;
+  width: 0;
+  height: 0;
+}
+.chat-message.left:before {
+  left: -15px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid blue;
+  margin-top: -10px;
+}
+
+.chat-message.left:after {
+  left: -15px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid white;
+  margin-top: -10px;
+}
+.chat-message.right:before {
+  right: -15px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid blue;
+  margin-top: -10px;
+}
+.chat-message.right:after {
+  right: -15px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid white;
+  margin-top: -10px;
+}
+.media-right span, .media-left span{
+  width:100px;
+}
+</style>
+<script src="/socket.io/socket.io.js"></script>
+<% include ../partials/javascript %>
+<script>
+var limitMessage = 3;
+$(document).ready(function($) {
+  var routes = [];
+$("#btnChat").bind( "click", function() {
+  var msg = $('#msg').val();
+  console.log('you send message:%s', msg);
+  if (msg) {
+
+    socket.emit('chat', {message:msg});
+  }
+});
+  
+
+  function showOnline(data) {
+    if (!data)
+      return;
+    if (!data.users)
+      return;
+  }
+
+  function showMessage(data) {
+
+    if (!data)
+      return;
+    if (!data.message)
+      return;
+
+    var msg = getContent(
+        data.name,
+        data.photo,
+        data.message,
+        data.tim,
+        data.name === 'xx'
+      );
+    console.log($('#chatMessage').children().length);
+    if ($('#chatMessage').children().length >= limitMessage){
+      $('#chatMessage li:last-child').remove();
+    }
+    $('#chatMessage').prepend(msg);
+  }
+
+  function getContent(name, photo, message, tim, isSelf)
+  {
+    var rl = 'left';
+    if (isSelf) {
+      rl = 'right';
+    }
+   return '    <li class=\"media\">' +
+          '        <div class=\"media-' + rl + '\">' +
+          '                <span class=\"pull-left text-center\" href=\"#\">' +
+          '                    <img class=\"media-object img-rounded\" src=\"' + photo + '\" />' +
+          '                    <br />' +
+          '                    <span class=\"chat-name\">' + name + '</span>' +
+          '                </span>' +
+          '        </div>' +
+          '        <div class=\"media-body\">' +
+          '            <div class=\"media\">' +
+          '                <div class=\"media-body chat-message '+rl+'\">' +
+          message +
+          '<br />                   <small class=\"text-muted\">' + tim + '</small>' +
+          '                </div>' +
+          '            </div>' +
+          '        </div>' +
+          '    </li>';
+  }
+  routes.push(showMessage);
+  routes.push(showOnline);
+
+  var socket = io.connect();
+  socket.on('chat', function (data) {
+  console.log(data);
+    for(i in routes) {
+      routes[i](data);
+    }
+ 
+  });
+
+});
+</script>
+<div class="row">
+<!--panel-info-->
+    <div class="col-md-8">
+        <div class="panel panel-info">
+<div class="panel-footer">
+    <div class="input-group">
+        <input id="msg" type="text" class="form-control" placeholder="Enter Message" />
+        <span class="input-group-btn">
+            <button id="btnChat" class="btn btn-info" type="button">傳送</button>
+        </span>
+    </div>
+</div>
+            <div class="panel-heading">
+                RECENT CHAT HISTORY
+            </div>
+<div class="panel-body" style="height: 500px;overflow:scroll;overflow-x:hidden;">
+  <ul id="chatMessage" class="media-list">
+    <li class="media">
+        <div class="media-left">
+                <span class="pull-left text-center" href="#">
+                    <img class="media-object img-rounded" src="https://scontent.xx.fbcdn.net/hprofile-xpf1/v/t1.0-1/c49.29.362.362/s50x50/76511_177043902308910_4294737_n.jpg?oh=c9d042d6930c487948a22d6eaf412e71&oe=578B36A9" />
+                    <br />
+                    <span class="chat-name">廖哥名字有夠長</span>
+                </span>
+
+        </div>
+
+        <div class="media-body">
+
+            <div class="media">
+
+                <div class="media-body chat-message left">
+
+afsdfsdfsdafsdfsdfsdafsdfsdfsdafsdfsdfsdafsdfsdfsd<br />
+asdfsa<br />
+ef<br />
+e
+<br />                   <small class="text-muted">Alex Deo | 22rd June at 5:00pm</small>
+                </div>
+
+            </div>
+
+        </div>
+    </li>
+
+    <li class="media">
+        <div class="media-body">
+
+            <div class="media">
+
+                <div class="media-body chat-message right">
+
+afsdfsdfsdafsdfsdfsdafsdfsdfsdafsdfsdfsdafsdfsdfsd<br />
+asdfsa<br />
+ef<br />
+e
+<br />                   <small class="text-muted">Alex Deo | 22rd June at 5:00pm</small>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="media-right">
+                <span class="pull-left text-center" href="#">
+                    <img class="media-object img-rounded" src="https://scontent.xx.fbcdn.net/hprofile-xpf1/v/t1.0-1/c49.29.362.362/s50x50/76511_177043902308910_4294737_n.jpg?oh=c9d042d6930c487948a22d6eaf412e71&oe=578B36A9" />
+                    <br />
+                    <span class="chat-name">廖哥名字有夠長</span>
+                </span>
+
+        </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+<!--panel-info-->
+<!--panel-user-list-->
+<div class="col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+           ONLINE USERS
+        </div>
+        <div class="panel-body">
+          <ul class="media-list">
+
+              <li class="media">
+
+                  <div class="media-body">
+
+                      <div class="media">
+                          <a class="pull-left" href="#">
+                              <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.png" />
+                          </a>
+                          <div class="media-body" >
+                              <h5>Alex Deo | User </h5>
+                              
+                             <small class="text-muted">Active From 2 hours</small>
+                          </div>
+                      </div>
+
+                  </div>
+              </li>
+            </ul>
+
+          </div>
+      </div>
+</div>
+<!--panel-user-list-->
+</div>
+</div>
+       <!-- /container -->
+    <footer class="footer">
+        <% include ../partials/footer %>
+    </footer>
+
+</body>
+</html>
