@@ -82,7 +82,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <% include ../partials/javascript %>
 <script>
-var limitMessage = 3;
+var limitMessage = 10;
 $(document).ready(function($) {
   var routes = [];
 $("#btnChat").bind( "click", function() {
@@ -114,7 +114,7 @@ $("#btnChat").bind( "click", function() {
         data.photo,
         data.message,
         data.tim,
-        data.name === 'xx'
+        data.name === '<%- name%>'
       );
     console.log($('#chatMessage').children().length);
     if ($('#chatMessage').children().length >= limitMessage){
@@ -125,34 +125,49 @@ $("#btnChat").bind( "click", function() {
 
   function getContent(name, photo, message, tim, isSelf)
   {
-    var rl = 'left';
+
+    var rl = 'right';
+    var a1 = '';
+    var a2 = '';
     if (isSelf) {
-      rl = 'right';
+      a1 = getChatInfo('left', photo, name);
+      a2 = getChatBody('left', message, tim);
+    } else {
+      a1 = getChatBody('right', message, tim);
+      a2 = getChatInfo('right', photo, name);
     }
+
+    console.log(rl);
    return '    <li class=\"media\">' +
-          '        <div class=\"media-' + rl + '\">' +
-          '                <span class=\"pull-left text-center\" href=\"#\">' +
-          '                    <img class=\"media-object img-rounded\" src=\"' + photo + '\" />' +
-          '                    <br />' +
-          '                    <span class=\"chat-name\">' + name + '</span>' +
-          '                </span>' +
-          '        </div>' +
-          '        <div class=\"media-body\">' +
+          a1 +
+          a2 +
+          '    </li>';
+  }
+  function getChatBody(rl, message, tim) {
+      return  '        <div class=\"media-body\">' +
           '            <div class=\"media\">' +
           '                <div class=\"media-body chat-message '+rl+'\">' +
           message +
           '<br />                   <small class=\"text-muted\">' + tim + '</small>' +
           '                </div>' +
           '            </div>' +
-          '        </div>' +
-          '    </li>';
+          '        </div>';
+  }
+  function getChatInfo(rl, photo, name) {
+    return '        <div class=\"media-' + rl + '\">' +
+          '                <span class=\"pull-left text-center\" href=\"#\">' +
+          '                    <img class=\"media-object img-rounded\" src=\"' + photo + '\" />' +
+          '                    <br />' +
+          '                    <span class=\"chat-name\">' + name + '</span>' +
+          '                </span>' +
+          '        </div>';
   }
   routes.push(showMessage);
   routes.push(showOnline);
 
   var socket = io.connect();
   socket.on('chat', function (data) {
-  console.log(data);
+  
     for(i in routes) {
       routes[i](data);
     }
@@ -178,60 +193,7 @@ $("#btnChat").bind( "click", function() {
             </div>
 <div class="panel-body" style="height: 500px;overflow:scroll;overflow-x:hidden;">
   <ul id="chatMessage" class="media-list">
-    <li class="media">
-        <div class="media-left">
-                <span class="pull-left text-center" href="#">
-                    <img class="media-object img-rounded" src="https://scontent.xx.fbcdn.net/hprofile-xpf1/v/t1.0-1/c49.29.362.362/s50x50/76511_177043902308910_4294737_n.jpg?oh=c9d042d6930c487948a22d6eaf412e71&oe=578B36A9" />
-                    <br />
-                    <span class="chat-name">廖哥名字有夠長</span>
-                </span>
-
-        </div>
-
-        <div class="media-body">
-
-            <div class="media">
-
-                <div class="media-body chat-message left">
-
-afsdfsdfsdafsdfsdfsdafsdfsdfsdafsdfsdfsdafsdfsdfsd<br />
-asdfsa<br />
-ef<br />
-e
-<br />                   <small class="text-muted">Alex Deo | 22rd June at 5:00pm</small>
-                </div>
-
-            </div>
-
-        </div>
-    </li>
-
-    <li class="media">
-        <div class="media-body">
-
-            <div class="media">
-
-                <div class="media-body chat-message right">
-
-afsdfsdfsdafsdfsdfsdafsdfsdfsdafsdfsdfsdafsdfsdfsd<br />
-asdfsa<br />
-ef<br />
-e
-<br />                   <small class="text-muted">Alex Deo | 22rd June at 5:00pm</small>
-                </div>
-
-            </div>
-
-        </div>
-        <div class="media-right">
-                <span class="pull-left text-center" href="#">
-                    <img class="media-object img-rounded" src="https://scontent.xx.fbcdn.net/hprofile-xpf1/v/t1.0-1/c49.29.362.362/s50x50/76511_177043902308910_4294737_n.jpg?oh=c9d042d6930c487948a22d6eaf412e71&oe=578B36A9" />
-                    <br />
-                    <span class="chat-name">廖哥名字有夠長</span>
-                </span>
-
-        </div>
-    </li>
+    
   </ul>
 </div>
 

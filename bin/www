@@ -24,9 +24,8 @@ var server = http.createServer(app);
 /**
  * Create Socket.io Server
  */
-var io = require('socket.io')(server);
-var socketRoute = require('../routes/socket.io');
-socketRoute(io);
+var io = app.io;
+io.attach(server);
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -69,6 +68,7 @@ function onError(error) {
     : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
+
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');

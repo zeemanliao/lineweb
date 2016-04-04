@@ -7,7 +7,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/chat', function(req, res, next) {
-  res.render('pages/chat');
+	var name = '';
+	if (req.user) {
+		name = req.user.name;
+	}
+  res.render('pages/chat',{name: name});
 });
 
 module.exports = router;
