@@ -69,7 +69,6 @@ app.set('view engine', 'ejs');
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
 
-  console.error(err);
   switch (err.type) {
     case 'OAuthException':
       return res.status(500).json({type:err.type,message:err.message});
@@ -84,10 +83,10 @@ app.use(function(err, req, res, next) {
 io.use(function(socket, next) {
     var req = socket.handshake;
     var res = {};
-console.log('111111111111111');
+
     let cp = cookieParser('zeemanliao-super-web');
     cp(req, null, function(err, data) {
-      console.log('222222222222222222');
+
         if (err) {
             return next(err);
         }

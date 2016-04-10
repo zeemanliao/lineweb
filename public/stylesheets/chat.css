@@ -1,0 +1,72 @@
+  .chat-name {
+    color:green;
+  }
+  .chat-message {
+    color:blue;
+    border-radius:2px;
+    float: right;
+    position: relative;
+    text-decoration: none;
+    padding: 0 10px;
+    -webkit-transition: padding 0.1s linear;
+    -moz-transition: padding 0.1s linear;
+    -ms-transition: padding 0.1s linear;
+    -o-transition: padding 0.1s linear;
+  }
+.chat-message.left {
+     box-shadow:2px 2px 2px 2px #ccc;
+     border-left: 5px solid white;
+}
+.chat-message.right {
+    box-shadow:-2px 2px 2px 2px #ccc;
+    border-right: 5px solid white;
+}
+
+.chat-message:before,
+.chat-message:after {
+  content: "";
+  position: absolute;
+  top: 25%;
+  width: 0;
+  height: 0;
+}
+.chat-message.left:before {
+  left: -15px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid blue;
+  margin-top: -10px;
+}
+
+.chat-message.left:after {
+  left: -15px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid white;
+  margin-top: -10px;
+}
+.chat-message.right:before {
+  right: -15px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid blue;
+  margin-top: -10px;
+}
+.chat-message.right:after {
+  right: -15px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid white;
+  margin-top: -10px;
+}
+.media-right span, .media-left span{
+  width:100px;
+}
+.div-right {
+  clear:both;
+  float: right;
+}
+.div-left {
+  clear:both;
+  float: left;
+}
