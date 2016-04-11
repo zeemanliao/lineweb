@@ -14,19 +14,21 @@
     <!-- Begin page content -->
     <div class="container">
       <div class="page-header">
-        <h1>Chat Room</h1>
+        <h4>Chat Room</h4>
       </div>
+
 <div class="row">
 <!--panel-info-->
     <div class="col-md-8">
         <div class="panel panel-info">
 <div class="panel-footer">
-    <div class="input-group">
+    <div id="sendFrame" class="input-group">
         <input id="msg" type="text" class="form-control" placeholder="Enter Message" />
         <span class="input-group-btn">
             <button id="btnChat" class="btn btn-info" type="button">傳送</button>
         </span>
     </div>
+    <div id="alertContainer"></div>
 </div>
             <div class="panel-heading">
                 RECENT CHAT HISTORY

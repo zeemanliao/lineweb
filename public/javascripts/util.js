@@ -1,7 +1,8 @@
 
 define(function(){
     return {
-        TimeToString: function(t){
+        TimeToString: function(tstamp){
+            var t =  new Date(tstamp);
             d = [
                t.getFullYear(),
                t.getMonth()+1,

@@ -19,5 +19,7 @@ require.config({
 });
 
 require(['jquery','bootstrap','ie10-viewport-hack','ie-emulation-modes'], function($){
-	
+    $(".nav-tabs a").click(function(){
+        $(this).tab('show');
+    });
 });

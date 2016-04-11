@@ -95,7 +95,7 @@ io.use(function(socket, next) {
     });
 });
 
-socketRoute(io);
+socketRoute(io, app);
 require('./lib/usepassport')(passport, app);
 
 module.exports = app;

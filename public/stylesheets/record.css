@@ -1,0 +1,13 @@
+@media (max-width:480px){
+.clearer {
+  *zoom: 1;
+}
+.clearer:before, .clearer:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearer:after {
+  clear: both;
+}
+}
