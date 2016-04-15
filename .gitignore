@@ -34,3 +34,4 @@ node_modules
 /config-test.json
 /config.json
 /source/images
+/public/images/zeeman.png

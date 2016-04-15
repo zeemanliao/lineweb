@@ -6,8 +6,22 @@ let chatUsers = {};
 let ddosTime = 3000;    //ms
 let lastChatLimit = 10;
 let lastChats = [];
+let chatLimit = 3;//連續發言不可超過次數
+
 module.exports = function(io, app) {
     let Storage = app.Storage;
+
+    Storage.ChatLogs.find({target:'public'}).sort('-tim').limit(10).exec(
+        function(err, _chats) {
+            if (err)
+                return console.log(err);
+
+            for (let i in _chats)
+            {
+                lastChats.unshift(_chats[i]);
+            }
+        }
+        );
 
     io.sockets.on('connection', function(socket) {
         let user = null;
@@ -16,8 +30,9 @@ module.exports = function(io, app) {
           user.last = new Date().getTime();
           chatUsers[user.id] = user;
         }
+        
         //第一次連線取得所有線上人員
-        io.emit('chat', {users:getOnlineUsers(),messages:lastChats});
+        io.emit('chat', {users:getOnlineUsers(),messages:getLastChat()});
 
         /**
          * 接收用戶端傳來的資料
@@ -34,6 +49,10 @@ module.exports = function(io, app) {
             if (!cmd.message)
                 return;
 
+            if (isChatOver(user.id)) {
+                socket.emit('warning', {message:'無法連續發言超過「' + chatLimit + '」次!'});
+            }
+
             let thisTime = new Date().getTime();
             //DDOS
             if (thisTime - user.last <= ddosTime) {
@@ -46,7 +65,7 @@ module.exports = function(io, app) {
 
             ChatLog.name = user.name;
             ChatLog.id = user.id;
-            ChatLog.msg = cmd.message;
+            ChatLog.message = cmd.message;
             ChatLog.photo = user.photo;
             ChatLog.tim = user.last;
             ChatLog.target = 'public';
@@ -61,7 +80,7 @@ module.exports = function(io, app) {
                             tim: new Date().getTime(),
                             message: xssFilters.inHTMLData(cmd.message)
                         };
-                lastChats.push(msg);
+                lastChats.push(ChatLog);
                 if (lastChats.length>lastChatLimit) {
                     lastChats.shift();
                 }
@@ -80,6 +99,17 @@ module.exports = function(io, app) {
     });
 };
 
+function isChatOver(id) {
+    let lastIndex = lastChats.length -1;
+    if (lastIndex + 1 >= chatLimit) {
+        for (let pIndex = lastIndex;pIndex>lastIndex - chatLimit; pIndex --) {
+            if (lastChats[pIndex].id != id)
+                return false;
+        }
+    }
+    return true;
+}
+
 function getOnlineUsers() {
     let users = [];
     for (let i in chatUsers) {
@@ -91,4 +121,17 @@ function getOnlineUsers() {
         users.push(user);
     }
     return users;
+}
+
+function getLastChat() {
+    let msgs = [];
+    for (let i in lastChats) {
+        msgs.push({
+            name:lastChats[i].name,
+            photo:lastChats[i].photo,
+            tim:lastChats[i].tim,
+            message:lastChats[i].message
+        });
+    }
+    return msgs;
 }
