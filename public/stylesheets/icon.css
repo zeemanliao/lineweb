@@ -1,0 +1,18 @@
+.medium-chrome, .medium-edge, .medium-firefox, .medium-opera
+{ display: inline-block; background: url('/images/icon/medium_broswer.png') no-repeat; overflow: hidden; text-indent: -9999px; text-align: left; }
+{ display: inline-block; background: url('/images/icon/large_broswer.png') no-repeat; overflow: hidden; text-indent: -9999px; text-align: left; } 
+{ display: inline-block; background: url('/images/icon/small_broswer.png') no-repeat; overflow: hidden; text-indent: -9999px; text-align: left; }
+.medium-chrome { background-position: -0px -0px; width: 64px; height: 64px; }
+.medium-edge { background-position: -64px -0px; width: 64px; height: 64px; }
+.medium-firefox { background-position: -0px -64px; width: 64px; height: 64px; }
+.medium-opera { background-position: -64px -64px; width: 64px; height: 64px; }
+.large-chrome, .large-edge, .large-firefox, .large-opera
+.large-chrome { background-position: -0px -0px; width: 128px; height: 128px; }
+.large-edge { background-position: -128px -0px; width: 128px; height: 128px; }
+.large-firefox { background-position: -0px -128px; width: 128px; height: 128px; }
+.large-opera { background-position: -128px -128px; width: 128px; height: 128px; }
+.small-chrome, .small-edge, .small-firefox, .small-opera
+.small-chrome { background-position: -0px -0px; width: 32px; height: 32px; }
+.small-edge { background-position: -32px -0px; width: 32px; height: 32px; }
+.small-firefox { background-position: -0px -32px; width: 32px; height: 32px; }
+.small-opera { background-position: -32px -32px; width: 32px; height: 32px; }

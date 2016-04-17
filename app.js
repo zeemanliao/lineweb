@@ -12,11 +12,12 @@ let session = require('express-session');
 let mongoose = require('mongoose');
 let MongoStore = require('connect-mongo')(session);
 let passport = require('passport');
-
+let csrf = require('csurf');
 let socketRoute = require('./routes/socket.io');
 let routes = require('./routes/index');
 let users = require('./routes/users');
 let auth = require('./routes/auth');
+let autoRun = require('./lib/autoRun');
 
 let app = express();
 let io = require("socket.io")();
@@ -56,15 +57,16 @@ app.set('view engine', 'ejs');
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser('zeemanliao-super-web'));
-
   app.use(mongoSession);
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(csrf());
   appuse(app);
   app.use('/', routes);
   app.use('/users', users);
   app.use('/auth', auth);
+  app.use('/api', require('./routes/api')(app));
 
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
@@ -94,7 +96,7 @@ io.use(function(socket, next) {
 
     });
 });
-
+autoRun(app);
 socketRoute(io, app);
 require('./lib/usepassport')(passport, app);
 

@@ -35,3 +35,5 @@ node_modules
 /config.json
 /source/images
 /public/images/zeeman.png
+/AQX.json
+/CWB.json
