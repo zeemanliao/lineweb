@@ -3,7 +3,14 @@
 <head>
     <% include ../partials/head %>
     <script data-main="javascripts/epa" src="javascripts/requirejs.js"></script>
+<style>
 
+#TaiwanMap area:focus {
+    outline:0px !important;
+    -webkit-appearance:none;
+}
+
+</style>
 </head>
 <body>
 
@@ -12,9 +19,76 @@
     </header>
     <!-- Begin page content -->
     <div class="container">
-  <h3>空污</h3>
- <div class="panel-group" id="accordion">
+  <h3>臺灣空污狀態</h3>
+  <div class="row">
+<div class="col-xs-3 col-sm-3 hidden-md hidden-lg" id="taiwan_buttons">
 
+</div>
+<div class="col-md-5 hidden-xs hidden-sm">
+<img src="images/taiwan.png" alt="taiwan" usemap="#TaiwanMap">
+<map name="TaiwanMap" id="TaiwanMap">
+   <area alt="基隆市" title="" href="#" shape="poly" coords="333,28,328,38,336,48,352,48,354,43" />
+    <area alt="臺北市" title="" href="#" shape="poly" coords="319,26,303,42,312,52,317,62,333,65,338,59,336,49,324,41" />
+    <area alt="新北市" title="" href="#" shape="poly" coords="355,43,390,57,386,67,375,62,352,77,324,89,322,101,297,109,288,80,279,79,275,71,283,52,269,37,289,32,296,22,307,22,314,14,322,14,332,27,327,38,319,28,302,40,314,59,327,67,338,60,340,54" />
+    <area alt="桃園市" title="" href="#" shape="poly" coords="270,37,284,57,275,69,282,82,289,82,299,110,282,123,260,107,259,82,220,60,241,47" />
+    <area alt="新竹縣" title="" href="#" shape="poly" coords="220,59,259,85,263,109,283,123,268,150,257,137,252,120,208,106,222,95,230,92,225,74,221,75,211,72" />
+    <area alt="新竹市" title="" href="#" shape="poly" coords="195,95,206,102,224,96,230,90,221,74,209,69" />
+    <area alt="宜蘭縣" title="" href="#" shape="poly" coords="387,67,374,61,325,83,320,94,317,102,296,109,283,123,268,149,292,163,305,160,316,170,352,162,369,134,358,115,367,79" />
+    <area alt="苗栗縣" title="" href="#" shape="poly" coords="197,95,206,105,251,121,259,136,224,140,205,165,182,150,170,157,148,143,162,125" />
+    <area alt="臺中市" title="" href="#" shape="poly" coords="149,143,157,153,172,157,186,150,205,164,224,141,257,137,268,149,263,172,245,179,234,178,225,187,201,191,192,200,183,191,174,192,167,210,142,211,131,189,118,185" />
+    <area alt="彰化縣" title="" href="#" shape="poly" coords="119,185,133,190,145,213,137,231,149,237,147,247,123,248,114,243,101,233,74,238" />
+    <area alt="南投縣" title="" href="#" shape="poly" coords="267,148,295,163,280,179,272,207,248,248,254,261,250,279,220,300,213,288,181,279,161,282,140,259,146,234,137,231,142,209,166,208,175,191,186,189,192,197,202,191,230,181,260,171" />
+    <area alt="雲林縣" title="" href="#" shape="poly" coords="49,287,55,293,67,294,97,269,134,282,152,275,139,258,146,243,122,246,105,233,77,237,55,254" />
+    <area alt="嘉義縣" title="" href="#" shape="poly" coords="49,286,46,318,57,327,113,304,102,297,101,282,108,279,130,293,127,304,114,308,127,331,153,335,173,318,195,284,154,274,134,280,98,267,72,290,58,292" />
+    <area alt="嘉義市" title="" href="#" shape="poly" coords="106,279,128,293,123,304,114,306,99,298,102,282" />
+    <area alt="臺南市" title="" href="#" shape="poly" coords="47,317,57,326,104,305,122,315,126,332,152,335,142,351,108,368,92,390,77,394,63,380,52,392,31,367,32,339" />
+    <area alt="高雄市" title="" href="#" shape="poly" coords="195,284,170,319,144,350,107,368,94,390,77,394,64,380,52,391,55,404,68,424,73,458,76,467,92,472,107,447,102,409,117,408,138,394,162,402,180,398,177,382,201,349,217,342,236,338,232,316,223,299,217,287" />
+    <area alt="屏東縣" title="" href="#" shape="poly" coords="93,472,106,445,100,408,139,393,181,399,187,409,174,432,156,452,167,485,168,501,191,516,185,586,152,585,145,548,150,536,141,512,129,506,119,485" />
+    <area alt="臺東縣" title="" href="#" shape="poly" coords="168,499,167,482,156,444,170,429,183,423,185,407,174,390,200,347,223,341,234,334,249,352,265,349,287,314,303,313,307,324,289,339,293,369,269,389,252,423,211,451,192,517" />
+    <area alt="花蓮縣" title="" href="#" shape="poly" coords="305,160,292,162,277,181,274,204,248,250,253,264,250,278,221,299,233,332,250,352,266,349,289,315,303,313,308,279,321,242,334,205,332,184,352,175,353,163,317,167" />
+    <area alt="連江縣" title="" href="#" shape="poly" coords="18,12,28,14,40,25,59,19,66,33,44,51,19,51,14,32" />
+    <area alt="金門縣" title="" href="#" shape="poly" coords="2,143,12,137,31,148,45,129,59,135,69,152,60,176,29,174,15,187,4,179,13,163" />
+    <area alt="澎湖縣" title="" href="#" shape="poly" coords="11,522,23,499,47,493,55,511,69,515,79,538,57,542,50,549,19,542" />
+  </map>
+</div>
+                <div class="col-sm-9 col-xs-9 col-md-7">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+  <div class="row">
+    <div class="col-sm-3">
+    <h4 id="area_name">資料載入中...</h4>
+    </div>
+    <div class="col-sm-9 text-right">
+      <span id="PublishTime"></span>
+    </div>
+  </div>
+                            
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>位置</th>
+                                            <th>整體狀態</th>
+                                            <th>PM2.5</th>
+                                            <th>CO</th>
+                                            <th>NO2</th>
+                                            <th>PSI</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="epa_data">
+
+                                     </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
 </div>
 </div>
        <!-- /container -->

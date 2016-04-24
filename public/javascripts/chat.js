@@ -139,6 +139,7 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
             user.id = 'oUser_' + i;
             $('#chat-user-list').prepend(getOnlineUser(user, i));
         }
+        $('#online-count').text(onlineUsers.length + '位在線上');
         UpdateAliveTime();
     }
 

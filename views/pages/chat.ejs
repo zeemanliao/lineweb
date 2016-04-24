@@ -13,13 +13,13 @@
     </header>
     <!-- Begin page content -->
     <div class="container">
-      <div class="page-header">
+      <div class="page-header hidden-xs">
         <h4>LineNET Chat Room</h4>
       </div>
 
 <div class="row">
 <!--panel-info-->
-    <div class="col-md-8">
+    <div class="col-sm-8">
         <div class="panel panel-info">
 <div class="panel-footer">
     <div id="sendFrame" class="input-group">
@@ -30,9 +30,17 @@
     </div>
     <div id="alertContainer"></div>
 </div>
-            <div class="panel-heading">
-                RECENT CHAT HISTORY
-            </div>
+
+<div class="panel-heading">
+  <div class="row">
+    <div class="col-xs-6">
+    CHAT HISTORY
+    </div>
+    <div class="col-xs-6 text-right">
+      <span id="online-count"></span>
+    </div>
+  </div>
+</div>
 <div class="panel-body" style="height: 500px;overflow:scroll;overflow-x:hidden;">
   <ul id="chatMessage" class="media-list">
     
@@ -43,7 +51,7 @@
     </div>
 <!--panel-info-->
 <!--panel-user-list-->
-<div class="col-md-4">
+<div class="col-sm-4 hidden-xs">
       <div class="panel panel-primary">
         <div class="panel-heading">
            ONLINE USERS

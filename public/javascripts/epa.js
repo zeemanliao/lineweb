@@ -22,59 +22,78 @@ require.config({
 require(['jquery','underscore', 'bootstrap', 'ie10-viewport-hack', 'ie-emulation-modes'], function($,_) {
     var datas = [];
     var Countys = [];
+
+	var UIs = {
+		data:$('#epa_data'),
+		areaName:$('#area_name'),
+		PublishTime:$('#PublishTime'),
+		taiwanButtons:$('#taiwan_buttons'),
+		TaiwanMap:$('#TaiwanMap')
+	};
     $.ajax({
         url: "/api/epa"
     }).done(function(_datas) {
-    	console.log(_datas);
+    	UIs.taiwanButtons.children().remove();
+
         for (var i in _datas) {
             var data = _datas[i].data;
             if (!_.contains(Countys, data.County)) {
             	Countys.push(data.County);
+            	UIs.taiwanButtons.append('<button type="button" class="btn btn-primary">'+data.County+'</button>');
             }
             datas.push(data);
         }
-        showData();
+
+        showData('臺北市');
     });
+    UIs.taiwanButtons.on('click','button',
+    	function() {
+    		showData($(this).text());
+    		$('html, body').scrollTop(0);
+	});
+    UIs.TaiwanMap.on('click','area',
+    	function(){
+    		showData($(this).attr('alt'));
+    	});
 
-    function showData() {
-    	var frame = $('#accordion');
-    	var idx=0;
-    	for (var i in Countys) {
-    		idx+=1;
-    		var CountyName = Countys[i];
-    		frame.append(getColl(idx, CountyName));
-    		var c = $('#collapse' + idx);
-    			
-    		for (var j in datas) {
-    			var data = datas[j];
+    function showData(CountyName) {
+    	UIs.data.children().remove();
+    	UIs.areaName.text(CountyName);
+		for (var j in datas) {
+			var data = datas[j];
 
-    			if (CountyName == data.County) {
+			if (CountyName == data.County) {
+				var content = getContent(data);
+				UIs.data.append(content);
+			}
+		}
 
-    				var content = getContent(idx, data);
-    				c.append(content);
-    			}
-    		}
+    }
+
+    function getContent(data) {
+    	var cl = "default";
+    	if (data.PublishTime != '') {
+    		UIs.PublishTime.text('公告時間:'+data.PublishTime);
     	}
-    }
+    	switch (data.Status) {
+    		case '良好':
+	    		cl = "success";
+	    		break;
+	    	case '普通':
+	    	case '':
+	    		break;
+	    	default:
+	    		cl = "danger";
+	    		break;
+    	}
 
-    function getColl(idx, county) {
-    	return '  <div class="panel panel-info row">' +
-				'    <div class="panel-heading">' +
-				'      <h4 class="panel-title">' +
-				'        <a data-toggle="collapse" data-parent="#accordion" href="#collapse' + idx + '">' +
-				'        ' + county + '</a>' +
-				'      </h4>' +
-				'    </div>' +
-				'    <div id="collapse' + idx + '" class="panel-collapse collapse">' +
-				'    </div>' +
-				'  </div>';
-    }
-
-    function getContent(idx, data) {
-
-    	return '  <div class="panel panel-default col-sm-6 col-xs-12 col-md-3">' +
-		        '<div class="panel-heading">' + data.SiteName + '</div>' +
-      			'<div class="panel-body">PM2.5:' + data.PM25 + '</div>' +
-		       '</div>';
+    	return '<tr class="' + cl + '">' +
+            '    <td class="text-primary"><strong>' + data.SiteName + '</strong></td>' +
+            '    <td>' + data.Status + '</td>' +
+            '    <td>' + data.PM25 + '</td>' +
+            '    <td>' + data.CO + '</td>' +
+            '    <td>' + data.NO2 + '</td>' +
+            '    <td>' + data.PSI + '</td>' +
+            '</tr>';
     }
 });

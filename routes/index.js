@@ -20,5 +20,10 @@ router.get('/epa', function(req, res, next) {
 
   res.render('pages/epa');
 });
+
+router.get('/test', function(req, res, next){
+
+	res.render('pages/test');
+});
 module.exports = router;
 	

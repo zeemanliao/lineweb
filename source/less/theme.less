@@ -6,6 +6,48 @@
 @import "variables.less";
 @import "mixins.less";
 
+// MAIN
+// --------------------------------------------------
+
+// HTML
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+// BODY
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  font-family: Meiryo, "微軟正黑體", "Microsoft JhengHei";
+}
+
+// Footer
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f0f0ff;
+}
+
+body > .container {
+  padding: 60px 15px 0;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+
 
 //
 // Buttons

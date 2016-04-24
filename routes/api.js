@@ -11,7 +11,7 @@ module.exports = function(app) {
 		Storage.EPAs.find({}, function(err, datas) {
 			if (err)
 				return res.json({err:err});
-console.log(datas);
+
 			res.json(datas);
 		});
 	});
