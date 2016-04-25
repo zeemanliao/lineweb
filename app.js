@@ -17,7 +17,6 @@ let socketRoute = require('./routes/socket.io');
 let routes = require('./routes/index');
 let users = require('./routes/users');
 let auth = require('./routes/auth');
-let autoRun = require('./lib/autoRun');
 
 let app = express();
 let io = require("socket.io")();
@@ -96,7 +95,6 @@ io.use(function(socket, next) {
 
     });
 });
-autoRun(app);
 socketRoute(io, app);
 require('./lib/usepassport')(passport, app);
 
