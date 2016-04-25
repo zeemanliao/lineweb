@@ -30,6 +30,30 @@ require(['jquery','underscore', 'bootstrap', 'ie10-viewport-hack', 'ie-emulation
 		taiwanButtons:$('#taiwan_buttons'),
 		TaiwanMap:$('#TaiwanMap')
 	};
+
+	var _aryPSI = new Array();
+	var _aryFPMI = new Array();
+	var defaultCounty = '臺北市';
+        _aryPSI["PSI1"] = {text:'良好',style:'success'};
+        _aryPSI["PSI2"] = {text:'普通',style:'warning'};
+        _aryPSI["PSI3"] = {text:'不良',style:'danger'};
+        _aryPSI["PSI4"] = {text:'非常不良',style:'danger'};
+        _aryPSI["PSI5"] = {text:'有害',style:'danger'};
+        _aryPSI["PSI5"] = {text:'有害',style:'danger'};
+        _aryPSI["PSI6"] = {text:'設備維護',style:'info'};
+        
+        _aryFPMI["0"] = {text:'設備維護',style:'info'};
+        _aryFPMI["1"] = {text:'低',style:'success'};
+        _aryFPMI["2"] = {text:'低',style:'success'};
+        _aryFPMI["3"] = {text:'低',style:'success'};
+        _aryFPMI["4"] = {text:'中',style:'warning'};
+        _aryFPMI["5"] = {text:'中',style:'warning'};
+        _aryFPMI["6"] = {text:'中',style:'warning'};
+        _aryFPMI["7"] = {text:'高',style:'danger'};
+        _aryFPMI["8"] = {text:'高',style:'danger'};
+        _aryFPMI["9"] = {text:'高',style:'danger'};
+        _aryFPMI["10"] = {test:'非常高',style:'danger'};
+
     $.ajax({
         url: "/api/epa"
     }).done(function(_datas) {
@@ -44,7 +68,7 @@ require(['jquery','underscore', 'bootstrap', 'ie10-viewport-hack', 'ie-emulation
             datas.push(data);
         }
 
-        showData('臺北市');
+        showData(defaultCounty);
     });
     UIs.taiwanButtons.on('click','button',
     	function() {
@@ -75,25 +99,13 @@ require(['jquery','underscore', 'bootstrap', 'ie10-viewport-hack', 'ie-emulation
     	if (data.PublishTime != '') {
     		UIs.PublishTime.text('公告時間:'+data.PublishTime);
     	}
-    	switch (data.Status) {
-    		case '良好':
-	    		cl = "success";
-	    		break;
-	    	case '普通':
-	    	case '':
-	    		break;
-	    	default:
-	    		cl = "danger";
-	    		break;
-    	}
-
-    	return '<tr class="' + cl + '">' +
+    	var psi= _aryPSI[data.PSIStyle] || {text:'',style:''};
+    	var fpmi = _aryFPMI[data.FPMI] || {text:'',style:''};
+    	return '<tr>' +
             '    <td class="text-primary"><strong>' + data.SiteName + '</strong></td>' +
-            '    <td>' + data.Status + '</td>' +
-            '    <td>' + data.PM25 + '</td>' +
-            '    <td>' + data.CO + '</td>' +
-            '    <td>' + data.NO2 + '</td>' +
-            '    <td>' + data.PSI + '</td>' +
+            '    <td class="' + psi.style + '">' + psi.text+ '</td>' +
+            '    <td class="' + fpmi.style + '">' + data.PM25 + '</td>' +
+            '    <td class="' + fpmi.style + '">' + fpmi.text + '</td>' +
             '</tr>';
     }
 });
