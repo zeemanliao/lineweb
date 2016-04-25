@@ -40,7 +40,7 @@ if (isDEV) {
 //mongo db connect
 mongoose.connect('mongodb://localhost/linenet');
 
-let Storage = require('./lib/Storage')(mongoose);
+let Storage = require('.lib/Storage')(mongoose);
 app.Storage = Storage;
 
 // view engine setup
