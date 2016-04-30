@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('pages/index');
+  res.render('pages/epa');
 });
 
 router.get('/chat', function(req, res, next) {
@@ -19,6 +19,11 @@ router.get('/cwb', function(req, res, next) {
 router.get('/epa', function(req, res, next) {
 
   res.render('pages/epa');
+});
+
+router.get('/zeeman', function(req, res, next) {
+
+  res.render('pages/zeeman');
 });
 
 router.get('/test', function(req, res, next){

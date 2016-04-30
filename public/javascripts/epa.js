@@ -28,7 +28,8 @@ require(['jquery','underscore', 'bootstrap', 'ie10-viewport-hack', 'ie-emulation
 		areaName:$('#area_name'),
 		PublishTime:$('#PublishTime'),
 		taiwanButtons:$('#taiwan_buttons'),
-		TaiwanMap:$('#TaiwanMap')
+		TaiwanMap:$('#TaiwanMap'),
+		PSIFilter:$('#psi-filter')
 	};
 
 	var _aryPSI = new Array();
@@ -67,26 +68,53 @@ require(['jquery','underscore', 'bootstrap', 'ie10-viewport-hack', 'ie-emulation
             }
             datas.push(data);
         }
-
-        showData(defaultCounty);
+        var filterCountry = defaultCounty;
+        showData({
+        	title:filterCountry,
+        	field:"County",
+        	data:filterCountry
+        });
     });
     UIs.taiwanButtons.on('click','button',
     	function() {
-    		showData($(this).text());
+    		var filterCountry = $(this).text();
+    		showData({
+	        	title:filterCountry,
+	        	field:"County",
+	        	data:filterCountry
+	        });
     		$('html, body').scrollTop(0);
 	});
     UIs.TaiwanMap.on('click','area',
     	function(){
-    		showData($(this).attr('alt'));
-    	});
-
-    function showData(CountyName) {
+    		var filterCountry = $(this).attr('alt');
+    		showData({
+	        	title:filterCountry,
+	        	field:"County",
+	        	data:filterCountry
+	        });
+    });
+    UIs.PSIFilter.on('click','button',
+    	function() {
+    		var filterData = $(this).attr('data');
+    		showData({
+	        	title:'空氣指標-' +  _aryPSI[filterData].text,
+	        	field:"PSIStyle",
+	        	data:filterData
+	        });
+	});
+	/*
+		filter.title
+		filter.field
+		filter.data
+	*/
+    function showData(filter) {
     	UIs.data.children().remove();
-    	UIs.areaName.text(CountyName);
+    	UIs.areaName.text(filter.title);
 		for (var j in datas) {
 			var data = datas[j];
 
-			if (CountyName == data.County) {
+			if (filter.data == data[filter.field]) {
 				var content = getContent(data);
 				UIs.data.append(content);
 			}
