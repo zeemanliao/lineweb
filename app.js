@@ -50,7 +50,7 @@ app.Storage = Storage;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+app.enable('trust proxy');
 
 
 // uncomment after placing your favicon in /public
@@ -92,7 +92,7 @@ io.use(function(socket, next) {
     var req = socket.handshake;
     var res = {};
 
-    let cp = cookieParser('zeemanliao-super-web');
+    let cp = cookieParser(cfg.secret);
     cp(req, null, function(err, data) {
 
         if (err) {
