@@ -25,7 +25,7 @@ let appuse = require('./lib/useapp');
 
 let cfg = require('./config.json');
 let mongoSession = session({ 
-    secret: 'zeemanliao-super-web',
+    secret: cfg.secret,
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
@@ -35,10 +35,14 @@ app.locals.config = cfg;
 app.io = io;
 
 if (isDEV) {
-
+  cfg.db.mongodb.server="localhost";
 }
 //mongo db connect
-mongoose.connect('mongodb://localhost/linenet');
+mongoose.connect('mongodb://' + cfg.db.mongodb.server + '/' + cfg.db.mongodb.db,
+  {
+    user:cfg.db.mongodb.user,
+    pass:cfg.db.mongodb.pass
+  });
 
 let Storage = require('./lib/storage')(mongoose);
 app.Storage = Storage;
