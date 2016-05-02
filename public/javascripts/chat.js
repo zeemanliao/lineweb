@@ -31,7 +31,8 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
     var routes = [];
     var lastMessage = "";
     var chatTime = 2;
-
+    
+    setChatHeight();
     $('#sendFrame').hide();
 	setTimeout(function() {
 		$('#sendFrame').fadeIn(500);
@@ -152,6 +153,11 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
         }
     }
 
+    function setChatHeight() {
+        var offset = $('#messageFrame').offset();
+        var h = util.getBodyHeight() - offset.top;
+        $('#messageFrame').css('height',h);
+    }
     function AutoUpdateAliveTime() {
         setTimeout(function() {
             UpdateAliveTime();

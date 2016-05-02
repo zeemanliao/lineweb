@@ -30,5 +30,6 @@ router.get('/test', function(req, res, next){
 
 	res.render('pages/test');
 });
+
 module.exports = router;
 	
