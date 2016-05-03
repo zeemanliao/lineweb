@@ -53,7 +53,7 @@ require(['jquery','underscore', 'bootstrap', 'ie10-viewport-hack', 'ie-emulation
         _aryFPMI["7"] = {text:'高',style:'danger'};
         _aryFPMI["8"] = {text:'高',style:'danger'};
         _aryFPMI["9"] = {text:'高',style:'danger'};
-        _aryFPMI["10"] = {test:'非常高',style:'danger'};
+        _aryFPMI["10"] = {text:'非常高',style:'danger'};
 
     $.ajax({
         url: "/api/epa"
@@ -94,7 +94,7 @@ require(['jquery','underscore', 'bootstrap', 'ie10-viewport-hack', 'ie-emulation
 	        	data:filterCountry
 	        });
     });
-    UIs.PSIFilter.on('click','button',
+    UIs.PSIFilter.on('click','a',
     	function() {
     		var filterData = $(this).attr('data');
     		showData({
