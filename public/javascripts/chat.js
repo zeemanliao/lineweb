@@ -1,35 +1,35 @@
+'use strict';
 require.config({
     shim: {
-        "jquery": { exports: "jQuery" },
+        'jquery': { exports: 'jQuery' },
         bootstrap: {
-            deps: ["jquery"],
-            exports: "$.fn.transition"
+            deps: ['jquery'],
+            exports: '$.fn.transition'
         },
-        "ie10-viewport-hack": {
-            deps: ["jquery"]
+        'ie10-viewport-hack': {
+            deps: ['jquery']
         },
         'UI': {
-            deps: ["jquery"]
+            deps: ['jquery']
         }
     },
     paths: {
         jquery: '/assets/js/jquery-1.12.1.min',
         bootstrap: '/dist/js/bootstrap.min',
-        "ie10-viewport-hack": '/assets/js/ie10-viewport-bug-workaround',
-        "ie-emulation-modes": '/assets/ie-emulation-modes-warning',
-        "socket.io": '/socket.io/socket.io',
-        "util": '/javascripts/util',
-        "UI": "/javascripts/UI"
+        'ie10-viewport-hack': '/assets/js/ie10-viewport-bug-workaround',
+        'ie-emulation-modes': '/assets/ie-emulation-modes-warning',
+        'socket.io': '/socket.io/socket.io',
+        'util': '/javascripts/util',
+        'UI': '/javascripts/UI'
     }
 });
 
 
 require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack', 'ie-emulation-modes'], function($, io, util, UI) {
     var onlineUsers = [];
-    var AliveReflashTime = 10000;
     var limitMessage = 10;
+    var AliveReflashTime = 10000;
     var routes = [];
-    var lastMessage = "";
     var chatTime = 2;
     
     setChatHeight();
@@ -39,9 +39,9 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
 	}, 2500);
 
 	UI.alertMessage('info','歡迎加入聊天室');
-    $("#btnChat").bind("click", function() {
+    $('#btnChat').bind('click', function() {
         var msg = $('#msg').val();
-        $("#sendFrame").fadeOut(500, function() {
+        $('#sendFrame').fadeOut(500, function() {
         	var self = $(this);
         	setTimeout(function(){
         		self.fadeIn(500);
@@ -55,10 +55,12 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
 
 
     function showOnline(data) {
-        if (!data)
+        if (!data){
             return;
-        if (!data.users)
+        }
+        if (!data.users){
             return;
+        }
 
         onlineUsers = data.users;
         showOnlineUsers(onlineUsers);
@@ -66,10 +68,12 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
 
     function showMessage(data) {
         var photo = $('#user-photo').prop('src');
-        if (!data)
+        if (!data){
             return;
-        if (!data.messages)
+        }
+        if (!data.messages){
             return;
+        }
 
         for (var i in data.messages) {
             var chat = data.messages[i];
@@ -96,7 +100,7 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
         if (isSelf) {
             rl = 'right';
             if ($('#msg').val() == message) {
-                $('#msg').val("");
+                $('#msg').val('');
             }
             a1 = getChatBody('right', message, util.TimeToString(tim));
             a2 = getChatInfo('right', photo, name);
@@ -106,29 +110,29 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
             a2 = getChatBody('left', message, util.TimeToString(tim));
         }
 
-        return '    <li class=\"media\" ' + rl + '><div class="div-' + rl + '">' +
+        return '    <li class=\'media\' ' + rl + '><div class=\'div-' + rl + '\'>' +
             a1 +
             a2 +
             '    </div></li>';
     }
 
     function getChatBody(rl, message, tim) {
-        return '        <div class=\"media-body\">' +
-            '            <div class=\"media\">' +
-            '                <div class=\"media-body chat-message ' + rl + '\">' +
+        return '        <div class=\'media-body\'>' +
+            '            <div class=\'media\'>' +
+            '                <div class=\'media-body chat-message ' + rl + '\'>' +
             message +
-            '<br />                   <small class=\"text-muted\">' + tim + '</small>' +
+            '<br />                   <small class=\'text-muted\'>' + tim + '</small>' +
             '                </div>' +
             '            </div>' +
             '        </div>';
     }
 
     function getChatInfo(rl, photo, name) {
-        return '        <div class=\"media-' + rl + '\">' +
-            '                <span class=\"pull-left text-center\" href=\"#\">' +
-            '                    <img class=\"media-object img-rounded\" style="max-height:40px;" src=\"' + photo + '\" />' +
+        return '        <div class=\'media-' + rl + '\'>' +
+            '                <span class=\'pull-left text-center\' href=\'#\'>' +
+            '                    <img class=\'media-object img-rounded\' style=\'max-height:40px;\' src=\'' + photo + '\' />' +
             '                    <br />' +
-            '                    <span class=\"chat-name\">' + name + '</span>' +
+            '                    <span class=\'chat-name\'>' + name + '</span>' +
             '                </span>' +
             '        </div>';
     }
@@ -168,15 +172,15 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
 
     function getOnlineUser(user) {
 
-        return '              <li class="media" id="' + user.id + '">' +
+        return '              <li class=\'media\' id=\'' + user.id + '\'>' +
             '    ' +
-            '        <div class="media">' +
-            '            <a class="pull-left" href="#">' +
-            '                <img class="media-object img-circle" style="max-height:40px;" src="' + user.photo + '" />' +
+            '        <div class=\'media\'>' +
+            '            <a class=\'pull-left\' href=\'#\'>' +
+            '                <img class=\'media-object img-circle\' style=\'max-height:40px;\' src=\'' + user.photo + '\' />' +
             '            </a>' +
-            '            <div class="media-body" >' +
+            '            <div class=\'media-body\' >' +
             '                <h5>' + user.name + '</h5>' +
-            '               <small class="text-muted"></small>' +
+            '               <small class=\'text-muted\'></small>' +
             '            </div>' +
             '        </div>' +
             '    ' +
@@ -187,10 +191,9 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
         var t = (t1 - t2) / 1000;
         var hours = parseInt(t / 3600) % 24;
         var minutes = parseInt(t / 60) % 60;
-        var seconds = t % 60;
 
-        var hours = (hours < 10 ? "0" + hours : hours);
-        var minutes = (minutes < 10 ? "0" + minutes : minutes);
+        hours = (hours < 10 ? '0' + hours : hours);
+        minutes = (minutes < 10 ? '0' + minutes : minutes);
         if (hours == '00') {
             hours = '';
         } else {
@@ -201,8 +204,9 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
         } else {
             minutes += 'm';
         }
-        if (hours == '' && minutes == '')
-            hours = "Now";
+        if (hours === '' && minutes === ''){
+            hours = 'Now';
+        }
         return hours + minutes;
     }
     routes.push(showMessage);
@@ -211,7 +215,7 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
     var socket = io.connect();
     socket.on('chat', function(data) {
 
-        for (i in routes) {
+        for (var i in routes) {
             routes[i](data);
         }
 

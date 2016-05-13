@@ -7,10 +7,11 @@ var router = express.Router();
 module.exports = function(app) {
 	let Storage = app.Storage;
 	/* GET home page. */
-	router.get('/epa', function(req, res, next) {
+	router.get('/epa', function(req, res) {
 		Storage.EPAs.find({}, function(err, datas) {
-			if (err)
+			if (err){
 				return res.json({err:err});
+			}
 
 			res.json(datas);
 		});

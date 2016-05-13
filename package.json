@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -e js -i views -i source -i nod_modeules -i public -d 3 ./bin/www"
+    "start": "nodemon -e js -i views -i source -i nod_modeules -i public -d 3 ./bin/www",
+    "start2": "node ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -14,6 +15,7 @@
     "ejs": "~2.3.3",
     "express": "~4.13.1",
     "express-session": "^1.13.0",
+    "helmet": "^2.0.0",
     "mongoose": "^4.4.8",
     "morgan": "~1.6.1",
     "passport": "^0.3.2",

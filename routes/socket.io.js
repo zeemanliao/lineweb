@@ -13,8 +13,9 @@ module.exports = function(io, app) {
 
     Storage.ChatLogs.find({target:'public'}).sort('-tim').limit(10).exec(
         function(err, _chats) {
-            if (err)
+            if (err){
                 return console.log(err);
+            }
 
             for (let i in _chats)
             {
@@ -40,14 +41,16 @@ module.exports = function(io, app) {
          * @param {JSON} data 資料
          */
         socket.on('chat', function(cmd) {
-            if (user == null) {
+            if (user === null) {
                 socket.emit('warning', {message:'登入後才可發言!'});
                 return;
             }
-            if (!cmd)
+            if (!cmd){
                 return;
-            if (!cmd.message)
+            }
+            if (!cmd.message){
                 return;
+            }
 
             if (isChatOver(user.id)) {
                 socket.emit('warning', {message:'無法連續發言超過「' + chatLimit + '」次!'});
@@ -71,8 +74,9 @@ module.exports = function(io, app) {
             ChatLog.target = 'public';
 
             ChatLog.save(function(err) {
-                if (err)
+                if (err){
                     console.log(err);
+                }
 
                 var msg = {
                             name: user.name,
@@ -91,7 +95,7 @@ module.exports = function(io, app) {
         });
 
         socket.on('disconnect', function() {
-            if (user != null) {
+            if (user !== null) {
                 delete chatUsers[user.id];
                 io.emit('chat', {users:getOnlineUsers()});
             }
@@ -103,8 +107,9 @@ function isChatOver(id) {
     let lastIndex = lastChats.length -1;
     if (lastIndex + 1 >= chatLimit) {
         for (let pIndex = lastIndex;pIndex>lastIndex - chatLimit; pIndex --) {
-            if (lastChats[pIndex].id != id)
+            if (lastChats[pIndex].id != id) {
                 return false;
+            }
         }
     }
     return true;

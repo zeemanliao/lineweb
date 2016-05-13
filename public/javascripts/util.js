@@ -1,9 +1,9 @@
-
+'use strict';
 define(function(){
     return {
         TimeToString: function(tstamp){
             var t =  new Date(tstamp);
-            d = [
+            var d = [
                t.getFullYear(),
                t.getMonth()+1,
                t.getDate(),
@@ -22,7 +22,7 @@ define(function(){
                 document.getElementById(id).offsetHeight
                 );
             } else{
-              return 0
+              return 0;
             }
           }
           var body = document.body,

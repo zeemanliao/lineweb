@@ -1,6 +1,8 @@
-var passport = require('passport');
-var express = require('express');
-var router = express.Router();
+'use strict';
+
+let passport = require('passport');
+let express = require('express');
+let router = express.Router();
 
 router.get('/facebook',
   passport.authenticate('facebook'));
@@ -15,7 +17,7 @@ router.get('/facebook/callback',
 router.get('/google',
   passport.authenticate('google', { scope: 
   	[ 'https://www.googleapis.com/auth/plus.login',
-  	, 'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
+  	 'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
 ));
  
 router.get('/google/callback', 

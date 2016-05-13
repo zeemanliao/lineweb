@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="<%- config.lang%>">
+<head>
+    <% include ../partials/head %>
+    <link href="stylesheets/log.css" rel="stylesheet">
+    <script data-main="javascripts/log" src="javascripts/requirejs.js"></script>
+</head>
+<body>
+
+    <header>
+        <% include ../partials/header %>
+        
+    </header>
+    <!-- Begin page content -->
+    <div class="container">
+      <div class="page-header hidden-xs">
+        <h4>LineNET Chat Room</h4>
+      </div>
+
+<div class="row">
+<!--panel-info-->
+    <div class="col-sm-8">
+        <div class="panel panel-info">
+<div class="panel-footer">
+    <div id="sendFrame" class="input-group">
+        <input id="msg" type="text" class="form-control" placeholder="Enter Message" />
+        <span class="input-group-btn">
+            <button id="btnChat" class="btn btn-info" type="button">傳送</button>
+        </span>
+    </div>
+    <div id="alertContainer"></div>
+</div>
+
+<div class="panel-heading">
+  <div class="row">
+    <div class="col-xs-6">
+    CHAT HISTORY
+    </div>
+    <div class="col-xs-6 text-right">
+      <span id="online-count"></span>
+    </div>
+  </div>
+</div>
+<div id="messageFrame" class="panel-body" style="overflow:scroll;overflow-x:hidden;">
+  <ul id="chatMessage" class="media-list">
+    
+  </ul>
+</div>
+
+        </div>
+    </div>
+<!--panel-info-->
+<!--panel-user-list-->
+<div class="col-sm-4 hidden-xs">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+           ONLINE USERS
+        </div>
+        <div class="panel-body">
+          <ul class="media-list" id="chat-user-list">
+
+            </ul>
+
+          </div>
+      </div>
+</div>
+<!--panel-user-list-->
+</div>
+</div>
+       <!-- /container -->
+    <footer class="footer">
+        <% include ../partials/footer %>
+    </footer>
+
+</body>
+</html>

@@ -1,8 +1,9 @@
+'use strict';
 define(['jquery'],function($){
     return {
         alertMessage: function(type, msg){
             var m = $('#alertContainer');
-            var p = $('<div class="alert alert-' + type + ' text-center">' + msg +'</div>');
+            var p = $('<div class=\'alert alert-' + type + ' text-center\'>' + msg +'</div>');
             p.hide();
             m.prepend(p);
             p.fadeIn(
