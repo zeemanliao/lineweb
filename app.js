@@ -31,6 +31,7 @@ let mongoSession = session({
     saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     cookie: {
+        secure: true,
         httpOnly: true,
         expires: expiryDate
     }
@@ -41,12 +42,11 @@ app.io = io;
 
 if (isDEV) {
     cfg.db.mongodb.server = 'localhost';
-} else {
-    //Secure
-    let helmet = require('helmet');
-    //app.disable('x-powered-by');
-    app.use(helmet());
 }
+//Secure
+let helmet = require('helmet');
+//app.disable('x-powered-by');
+app.use(helmet());
 //mongo db connect
 mongoose.connect('mongodb://' + cfg.db.mongodb.server + '/' + cfg.db.mongodb.db, {
     user: cfg.db.mongodb.user,
