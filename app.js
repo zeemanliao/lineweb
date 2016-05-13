@@ -4,7 +4,7 @@ let isDEV = process.env.NODE_ENV !== 'production';
 
 let express = require('express');
 let path = require('path');
-let favicon = require('serve-favicon');
+//let favicon = require('serve-favicon');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
@@ -18,31 +18,40 @@ let routes = require('./routes/index');
 let users = require('./routes/users');
 let auth = require('./routes/auth');
 
+
 let app = express();
-let io = require("socket.io")();
+let io = require('socket.io')();
 
 let appuse = require('./lib/useapp');
-
+let expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 let cfg = require('./config.json');
-let mongoSession = session({ 
+let mongoSession = session({
     secret: cfg.secret,
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection })
-     });
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    cookie: {
+        httpOnly: true,
+        expires: expiryDate
+    }
+});
 
 app.locals.config = cfg;
 app.io = io;
 
 if (isDEV) {
-  cfg.db.mongodb.server="localhost";
+    cfg.db.mongodb.server = 'localhost';
+} else {
+    //Secure
+    let helmet = require('helmet');
+    //app.disable('x-powered-by');
+    app.use(helmet());
 }
 //mongo db connect
-mongoose.connect('mongodb://' + cfg.db.mongodb.server + '/' + cfg.db.mongodb.db,
-  {
-    user:cfg.db.mongodb.user,
-    pass:cfg.db.mongodb.pass
-  });
+mongoose.connect('mongodb://' + cfg.db.mongodb.server + '/' + cfg.db.mongodb.db, {
+    user: cfg.db.mongodb.user,
+    pass: cfg.db.mongodb.pass
+});
 
 let Storage = require('./lib/storage')(mongoose);
 app.Storage = Storage;
@@ -50,42 +59,43 @@ app.Storage = Storage;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.enable('trust proxy');
+app.enable('trust proxy', 1); // trust first proxy
+
 
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 if (isDEV) {
-  app.use(logger('dev'));
+    app.use(logger('dev'));
 } else {
-  app.use(logger('short'));
+    app.use(logger('short'));
 }
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(cookieParser('zeemanliao-super-web'));
-  app.use(mongoSession);
-  app.use(express.static(path.join(__dirname, 'public')));
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(csrf());
-  appuse(app);
-  app.use('/', routes);
-  app.use('/users', users);
-  app.use('/auth', auth);
-  app.use('/api', require('./routes/api')(app));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser('zeemanliao-super-web'));
+app.use(mongoSession);
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(csrf());
+appuse(app);
+app.use('/', routes);
+app.use('/users', users);
+app.use('/auth', auth);
+app.use('/api', require('./routes/api')(app));
 
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
 
-  switch (err.type) {
-    case 'OAuthException':
-      return res.status(500).json({type:err.type,message:err.message});
-  }
-  
+    switch (err.type) {
+        case 'OAuthException':
+            return res.status(500).json({ type: err.type, message: err.message });
+    }
 
-  //let err = new Error('Not Found');
-  //err.status = 404;
-  next(err);
+
+    //let err = new Error('Not Found');
+    //err.status = 404;
+    next(err);
 });
 
 io.use(function(socket, next) {
@@ -93,7 +103,7 @@ io.use(function(socket, next) {
     var res = {};
 
     let cp = cookieParser(cfg.secret);
-    cp(req, null, function(err, data) {
+    cp(req, null, function(err) {
 
         if (err) {
             return next(err);
