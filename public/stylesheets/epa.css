@@ -1,0 +1,8 @@
+#TaiwanMap area:focus {
+    outline:0px !important;
+    -webkit-appearance:none;
+}
+
+#psi-filter > button {
+    position: relative;
+}
