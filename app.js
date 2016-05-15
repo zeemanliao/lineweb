@@ -31,7 +31,7 @@ let mongoSession = session({
     saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     cookie: {
-        secure: true,
+        secure: false,
         httpOnly: false,
         expires: expiryDate
     }
