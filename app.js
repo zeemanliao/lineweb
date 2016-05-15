@@ -32,7 +32,7 @@ let mongoSession = session({
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     cookie: {
         secure: true,
-        httpOnly: true,
+        httpOnly: false,
         expires: expiryDate
     }
 });
