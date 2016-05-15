@@ -56,6 +56,9 @@ mongoose.connect('mongodb://' + cfg.db.mongodb.server + '/' + cfg.db.mongodb.db,
 let Storage = require('./lib/storage')(mongoose);
 app.Storage = Storage;
 
+let Models = require('./lib/models')(app);
+app.Model = Models;
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

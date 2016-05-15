@@ -33,8 +33,10 @@ module.exports = function(io, app) {
         }
         
         //第一次連線取得所有線上人員
-        io.emit('chat', {users:getOnlineUsers(),messages:getLastChat()});
+        io.emit('chat', {users:getOnlineUsers()});
 
+        //第一次連進取得訊息
+        socket.emit('chat',{messages:getLastChat()});
         /**
          * 接收用戶端傳來的資料
          *
