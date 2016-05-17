@@ -23,17 +23,21 @@ let app = express();
 let io = require('socket.io')();
 
 let appuse = require('./lib/useapp');
-let expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+//let expiryDate = new Date(Date.now() + 10 * 60 * 60 * 1000); // 
 let cfg = require('./config.json');
 let mongoSession = session({
     secret: cfg.secret,
-    resave: false,
-    saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    resave: false,  //don't save session if unmodified
+    saveUninitialized: true,   //create session until something stored
+    store: new MongoStore(
+        { mongooseConnection: mongoose.connection,
+            touchAfter: 1 * 60 * 60, // time period in seconds
+            clear_interval: 20 * 60
+        }),
     cookie: {
         secure: false,
-        httpOnly: false,
-        expires: expiryDate
+        httpOnly: true,
+        maxAge: 1 * 60 * 60 *1000
     }
 });
 
@@ -76,15 +80,19 @@ if (isDEV) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('zeemanliao-super-web'));
-app.use(mongoSession);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSession);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(csrf());
 appuse(app);
 app.use('/', routes);
 app.use('/users', users);
-app.use('/auth', auth);
+if (isDEV) {
+    app.use('/auth', require('./routes/authDEV')(app));
+} else {
+    app.use('/auth', auth);
+}
 app.use('/api', require('./routes/api')(app));
 
 // catch 404 and forward to error handler
@@ -116,6 +124,6 @@ io.use(function(socket, next) {
     });
 });
 socketRoute(io, app);
-require('./lib/usepassport')(passport, app);
+require('./lib/useauth')(app);
 
 module.exports = app;
