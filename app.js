@@ -35,7 +35,7 @@ let mongoSession = session({
             clear_interval: 20 * 60
         }),
     cookie: {
-        secure: false,
+        secure: !isDEV,
         httpOnly: true,
         maxAge: 1 * 60 * 60 *1000
     }
@@ -79,7 +79,7 @@ if (isDEV) {
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser('zeemanliao-super-web'));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSession);
 app.use(passport.initialize());
