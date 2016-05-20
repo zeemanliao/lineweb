@@ -31,13 +31,13 @@ let mongoSession = session({
     saveUninitialized: true,   //create session until something stored
     store: new MongoStore(
         { mongooseConnection: mongoose.connection,
-            touchAfter: 1 * 60 * 60, // time period in seconds
+            touchAfter: 60 * 60, // time period in seconds
             clear_interval: 20 * 60
         }),
     cookie: {
         secure: !isDEV,
         httpOnly: true,
-        maxAge: 1 * 60 * 60 *1000
+        maxAge: 60 * 60 *1000
     }
 });
 
@@ -51,7 +51,7 @@ if (isDEV) {
 let helmet = require('helmet');
 //app.disable('x-powered-by');
 app.use(helmet());
-//mongo db connect
+//mongodb connect
 mongoose.connect('mongodb://' + cfg.db.mongodb.server + '/' + cfg.db.mongodb.db, {
     user: cfg.db.mongodb.user,
     pass: cfg.db.mongodb.pass
@@ -66,7 +66,7 @@ app.Model = Models;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.enable('trust proxy', 1); // trust first proxy
+app.set('trust proxy', 1); // trust first proxy
 
 
 
