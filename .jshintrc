@@ -7,5 +7,6 @@
   "quotmark": "single",
   "undef": true,
   "unused": true,
-  "node": true
+  "node": true,
+  "moz":true
 }

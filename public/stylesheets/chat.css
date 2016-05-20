@@ -70,3 +70,7 @@
   clear:both;
   float: left;
 }
+#messageFrame {
+  overflow:scroll;
+  overflow-x:hidden;
+}
