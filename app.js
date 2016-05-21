@@ -93,7 +93,7 @@ if (isDEV) {
 } else {
     app.use('/auth', auth);
 }
-app.use('/api', require('./routes/api')(app));
+require('./routes/api')(app);
 
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {

@@ -6,9 +6,9 @@ let router = express.Router();
 
 module.exports = function(app) {
     let cfg = app.locals.config;
-    let auth = app.Model.auth;
+    let User = app.Model.user;
 router.get('/facebook', function(req, res, next) {
-    auth.getUser('facebook', {id:cfg.oauth.facebook.testID}, function(err, user) {
+    User.get(cfg.oauth.facebook.testID, function(err, user) {
         if (err) {
             return next(err);
         }
@@ -20,7 +20,7 @@ router.get('/facebook', function(req, res, next) {
 
 router.get('/google', function(req, res, next) {
 
-    auth.getUser('google', {id:cfg.oauth.google.testID}, function(err, user) {
+    User.get(cfg.oauth.google.testID, function(err, user) {
         if (err) {
             return next(err);
         }

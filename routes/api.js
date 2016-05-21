@@ -1,22 +1,25 @@
 'use strict';
-var express = require('express');
-
-var router = express.Router();
-
+let fs = require('fs');
+let path = require('path');
+let _path = path.join(__dirname, './api');
 
 module.exports = function(app) {
-	let Storage = app.Storage;
-	/* GET home page. */
-	router.get('/epa', function(req, res) {
-		Storage.EPAs.find({}, function(err, datas) {
-			if (err){
-				return res.json({err:err});
-			}
 
-			res.json(datas);
-		});
-	});
+    let objs = {};
 
-	return router;
+    let patt = new RegExp(".js");
+    fs.readdirSync(_path).forEach(function(filename) {
+
+        if (!patt.test(filename)) {
+            return;
+        }
+
+        let _name = path.basename(filename, '.js');
+
+        let router = require(path.join(_path, filename))(app);
+        app.use('/api/' + _name, router);
+        console.log('RESTful API loaded:%s', _name);
+    });
+
 };
 	

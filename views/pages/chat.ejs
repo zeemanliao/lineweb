@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="<%- config.lang%>">
 <head>
-    <% include ../partials/head %>
+    <% include "../partials/head" %>
     <link href="stylesheets/chat.css" rel="stylesheet">
-    <script data-main="javascripts/chat" src="javascripts/requirejs.js"></script>
+    <script data-main="javascripts/chat.js" src="javascripts/requirejs.js"></script>
 </head>
 <body>
 
@@ -41,7 +41,7 @@
     </div>
   </div>
 </div>
-<div id="messageFrame" class="panel-body" style="overflow:scroll;overflow-x:hidden;">
+<div id="messageFrame" class="panel-body">
   <ul id="chatMessage" class="media-list">
     
   </ul>
@@ -69,7 +69,7 @@
 </div>
        <!-- /container -->
     <footer class="footer">
-        <% include ../partials/footer %>
+        <% include ../partials/footer.ejs %>
     </footer>
 
 </body>
