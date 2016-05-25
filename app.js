@@ -22,7 +22,7 @@ let auth = require('./routes/auth');
 let app = express();
 let io = require('socket.io')();
 
-let appuse = require('./lib/useapp');
+let errorHandler = require('./lib/errorHandler');
 //let expiryDate = new Date(Date.now() + 10 * 60 * 60 * 1000); // 
 let cfg = require('./config.json');
 let mongoSession = session({
@@ -85,7 +85,17 @@ app.use(mongoSession);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(csrf());
-appuse(app);
+
+    app.use(function(req, res, next) {
+        if (req.user) {
+            req.user.last = new Date().getTime();
+        } else if (req.session.user) {
+            req.user = req.session.user;
+        }
+        res.locals.user = req.user;
+        next();
+    });
+
 app.use('/', routes);
 app.use('/users', users);
 if (isDEV) {
@@ -126,4 +136,5 @@ io.use(function(socket, next) {
 socketRoute(io, app);
 require('./lib/useauth')(app);
 
+errorHandler(app);
 module.exports = app;
