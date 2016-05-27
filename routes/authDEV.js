@@ -24,7 +24,6 @@ router.get('/google', function(req, res, next) {
         if (err) {
             return next(err);
         }
-        console.log(user);
         req.session.user = user;
         res.redirect('/');
     });

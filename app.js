@@ -27,17 +27,17 @@ let errorHandler = require('./lib/errorHandler');
 let cfg = require('./config.json');
 let mongoSession = session({
     secret: cfg.secret,
-    resave: false,  //don't save session if unmodified
-    saveUninitialized: true,   //create session until something stored
-    store: new MongoStore(
-        { mongooseConnection: mongoose.connection,
-            touchAfter: 60 * 60, // time period in seconds
-            clear_interval: 20 * 60
-        }),
+    resave: false, //don't save session if unmodified
+    saveUninitialized: true, //create session until something stored
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+        touchAfter: 60 * 60, // time period in seconds
+        clear_interval: 20 * 60
+    }),
     cookie: {
         secure: !isDEV,
         httpOnly: true,
-        maxAge: 60 * 60 *1000
+        maxAge: 60 * 60 * 1000
     }
 });
 
@@ -86,20 +86,25 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(csrf());
 
-    app.use(function(req, res, next) {
-        if (req.user) {
-            req.user.last = new Date().getTime();
-        } else if (req.session.user) {
-            req.user = req.session.user;
-        }
-        res.locals.user = req.user;
-        next();
-    });
+app.use(function(req, res, next) {
+    if (req.user) {
+        req.user.last = new Date().getTime();
+    } else if (req.session.user) {
+        req.user = req.session.user;
+    }
+    res.locals.user = req.user;
+    next();
+});
 
 app.use('/', routes);
 app.use('/users', users);
 if (isDEV) {
     app.use('/auth', require('./routes/authDEV')(app));
+    app.all('/api/*', function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        next();
+    });
 } else {
     app.use('/auth', auth);
 }
