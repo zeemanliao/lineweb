@@ -23,5 +23,9 @@ router.get('/game', function(req, res) {
   res.render('pages/game');
 });
 
+router.get('/test', function(req, res) {
+	res.render('pages/test');
+});
+
 module.exports = router;
 	
