@@ -45,7 +45,7 @@ router慣性在此取得html頁面內容
 
 config.json內容請依自行建立調整設定
 因資料內容隱密，所以需自行保存，不要對外公開
-json```
+```json
 {
         "lang":"zh-Hant-TW",
         "secret":"網站cookies secret碼",
