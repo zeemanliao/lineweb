@@ -42,3 +42,61 @@ router慣性在此取得html頁面內容
 ####storage\obj子目錄
 資料物件
 此目錄的資料，會依檔名並以mongoose.Schema的型態自動載入app.Storage中
+
+config.json內容請依自行建立調整設定
+因資料內容隱密，所以需自行保存，不要對外公開
+json```
+{
+        "lang":"zh-Hant-TW",
+        "secret":"網站cookies secret碼",
+        "site" :{
+        "title": "網站名稱",
+        "description": "網站說明"
+    },
+        "author": {
+        "name": "作者名稱",
+        "contact": "連絡資訊"
+    },
+    "db":{
+        "mongodb": {
+                "server":"db ip or domain",
+                "user":"db user name",
+                "pass":"db password",
+                "db":"db name"
+        }
+    },
+        "oauth":
+        {
+                "facebook":
+                {
+                        "id":"fb app id",
+                        "secret":"fb app secret",
+                        "callbackURL":"facebook callback url",
+                        "testID":"測試環境登入facebook user id"
+                },
+                "google":
+                {
+                        "id":"google app id",
+                    	"secret": "google app secret",
+                    	"callbackURL": "google callback url",
+                        "testID":"測試環境登入google user id"
+                    },
+                "github":
+                {
+                        "id":"github app id",
+                        "secret":"github app secret",
+                        "callbackURL":"github callback url",
+                        "testID":"測試環境登入github user id"
+                },
+                "twitter":
+                {
+                        "id":"twitter app id",
+                        "secret":"twitter app secret",
+                        "callbackURL":"twitter callback url",
+                        "testID":"測試環境登入twitter user id"
+                }
+        }
+}
+
+
+```
