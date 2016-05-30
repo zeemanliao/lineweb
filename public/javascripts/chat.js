@@ -17,7 +17,7 @@ require.config({
         jquery: '/assets/js/jquery-1.12.1.min',
         bootstrap: '/dist/js/bootstrap.min',
         'ie10-viewport-hack': '/assets/js/ie10-viewport-bug-workaround',
-        'ie-emulation-modes': '/assets/ie-emulation-modes-warning',
+        'ie-emulation-modes': '/assets/js/ie-emulation-modes-warning',
         'socket.io': '/socket.io/socket.io',
         'util': '/javascripts/util',
         'UI': '/javascripts/UI'
@@ -31,21 +31,21 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
     var AliveReflashTime = 10000;
     var routes = [];
     var chatTime = 2;
-    
+
     setChatHeight();
     $('#sendFrame').hide();
-	setTimeout(function() {
-		$('#sendFrame').fadeIn(500);
-	}, 2500);
+    setTimeout(function() {
+        $('#sendFrame').fadeIn(500);
+    }, 2500);
 
-	UI.alertMessage('info','歡迎加入聊天室');
+    UI.alertMessage('info', '歡迎加入聊天室');
     $('#btnChat').bind('click', function() {
         var msg = $('#msg').val();
         $('#sendFrame').fadeOut(500, function() {
-        	var self = $(this);
-        	setTimeout(function(){
-        		self.fadeIn(500);
-        	}, chatTime * 1000);
+            var self = $(this);
+            setTimeout(function() {
+                self.fadeIn(500);
+            }, chatTime * 1000);
         });
         if (msg) {
 
@@ -55,10 +55,10 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
 
 
     function showOnline(data) {
-        if (!data){
+        if (!data) {
             return;
         }
-        if (!data.users){
+        if (!data.users) {
             return;
         }
 
@@ -68,10 +68,10 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
 
     function showMessage(data) {
         var photo = $('#user-photo').prop('src');
-        if (!data){
+        if (!data) {
             return;
         }
-        if (!data.messages){
+        if (!data.messages) {
             return;
         }
 
@@ -160,8 +160,9 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
     function setChatHeight() {
         var offset = $('#messageFrame').offset();
         var h = util.getBodyHeight() - offset.top;
-        $('#messageFrame').css('height',h);
+        $('#messageFrame').css('height', h);
     }
+
     function AutoUpdateAliveTime() {
         setTimeout(function() {
             UpdateAliveTime();
@@ -204,7 +205,7 @@ require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack',
         } else {
             minutes += 'm';
         }
-        if (hours === '' && minutes === ''){
+        if (hours === '' && minutes === '') {
             hours = 'Now';
         }
         return hours + minutes;

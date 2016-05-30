@@ -1,28 +1,31 @@
 'use strict';
-var express = require('express');
-var router = express.Router();
-
 module.exports = function(app) {
-	let model = app.Model;
-	/* GET home page. */
-	router.get('/:id', function(req, res) {
+    let model = app.Model;
 
-		if (!req.params.id) {
-			res.send(404);
-		}
+    return {
+        "get": {
+            "path": "/",
+            "args": ["id"],
+            "fun": get
+        }
+    };
 
-		model.user.get(req.params.id, function(err, user) {
-			if (err){
-				return res.json({err:err});
-			}
-			if (!user) {
-				return res.send(404);
-			}
-			res.json(user);
-		});
+    function get(req, res) {
 
-	});
+        if (!req.params.id) {
+            res.sendStatus(404);
+        }
 
-	return router;
+        model.user.get(req.params.id, function(err, user) {
+            if (err) {
+                return res.json({ err: err });
+            }
+            if (!user) {
+                return res.sendStatus(404);
+            }
+            res.json(user);
+        });
+
+    };
+
 };
-	

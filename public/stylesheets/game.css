@@ -1,0 +1,11 @@
+.world-map {
+  background-image: url(/images/game/map.png);
+  width: 1024px;
+  height: 512px;
+  position: relative;
+}
+[city='A'] {
+  position: absolute;
+  left: 100px;
+  top: 100px;
+}

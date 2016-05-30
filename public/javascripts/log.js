@@ -16,7 +16,7 @@ require.config({
         jquery: '/assets/js/jquery-1.12.1.min',
         bootstrap: '/dist/js/bootstrap.min',
         "ie10-viewport-hack": '/assets/js/ie10-viewport-bug-workaround',
-        "ie-emulation-modes": '/assets/ie-emulation-modes-warning',
+        "ie-emulation-modes": '/assets/js/ie-emulation-modes-warning',
         "socket.io": '/socket.io/socket.io',
         "util": '/javascripts/util',
         "UI": "/javascripts/UI"
@@ -25,6 +25,6 @@ require.config({
 
 
 require(['jquery', 'socket.io', 'util', 'UI', 'bootstrap', 'ie10-viewport-hack', 'ie-emulation-modes'], function($, io, util, UI) {
- 
+
 
 });
