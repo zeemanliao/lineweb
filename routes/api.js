@@ -1,7 +1,7 @@
 'use strict';
 let fs = require('fs');
 let path = require('path');
-let _path = path.join(__dirname, './api');
+let _path = path.join(__dirname, './API');
 var express = require('express');
 
 
