@@ -35,7 +35,6 @@ let mongoSession = session({
         clear_interval: 20 * 60
     }),
     cookie: {
-        secure: !isDEV,
         httpOnly: true,
         maxAge: 60 * 60 * 1000
     }
