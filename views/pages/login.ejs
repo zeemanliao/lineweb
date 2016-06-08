@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="<%- config.lang%>">
+
+<head>
+    <% include ../partials/head %>
+        <link href="stylesheets/chat.css" rel="stylesheet">
+        <script data-main="javascripts/chat.js" src="javascripts/requirejs.js"></script>
+</head>
+
+<body>
+    <header>
+        <% include ../partials/header %>
+    </header>
+    <!-- Begin page content -->
+    <div class="container">
+        <div class="page-header hidden-xs">
+            <h4>Login</h4>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group-vertical">
+                    <a href="/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
+                        <span class="fa fa-facebook"></span>Facebook
+                    </a>
+                    <a href="/auth/google" class="btn btn-lg btn-block btn-social btn-google">
+                        <span class="fa fa-google"></span>Google
+                    </a>
+                    <a href="/auth/github" class="btn btn-lg btn-block btn-social btn-github">
+                        <span class="fa fa-github"></span>GitHub
+                    </a>
+                    <a href="/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
+                        <span class="fa fa-twitter"></span>Twitter
+                    </a>
+                </div>
+            </div>
+            <!--panel-user-list-->
+        </div>
+    </div>
+    <!-- /container -->
+    <footer class="footer">
+        <% include ../partials/footer %>
+    </footer>
+</body>
+
+</html>

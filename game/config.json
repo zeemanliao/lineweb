@@ -1,0 +1,9 @@
+{
+    "version": "0.0.1",
+    "name": "real Hero",
+    "description": "",
+    "author": [
+        { "duty": "programer", "name": "zeeman" },
+        { "duty": "UI design", "name": "zeeman" }
+    ]
+}
