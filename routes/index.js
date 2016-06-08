@@ -4,28 +4,37 @@ let router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('pages/epa');
+    if (req.session.callBackUrl) {
+        res.redirect(req.session.callBackUrl);
+        req.session.callBackUrl = null;
+    } else {
+        res.render('pages/epa');
+    }
 });
 
 router.get('/chat', function(req, res) {
-
-  res.render('pages/chat');
+    req.session.callBackUrl = req.url;
+    res.render('pages/chat');
 });
 
 
 router.get('/epa', function(req, res) {
-
-  res.render('pages/epa');
+    req.session.callBackUrl = req.url;
+    res.render('pages/epa');
 });
 
 router.get('/game', function(req, res) {
-
-  res.render('pages/game');
+    if (req.user) {
+        res.render('pages/game');
+    } else {
+        req.session.callBackUrl = req.url;
+        res.render('pages/login');
+    }
 });
 
 router.get('/test', function(req, res) {
-	res.render('pages/test');
+    req.session.callBackUrl = req.url;
+    res.render('pages/test');
 });
 
 module.exports = router;
-	

@@ -1,9 +1,8 @@
 'use strict';
-let gameCfg = require('../../game.json');
 
 module.exports = function(app) {
     let Storage = app.Storage;
-
+    let game = app.locals.game;
     return {
         "get": {
             "path": "/",
@@ -15,11 +14,11 @@ module.exports = function(app) {
     function get(req, res) {
         switch (req.params.info) {
             case 'all':
-                res.json(gameCfg);
+                res.json(game.cfg);
                 break;
             default:
-                if (req.params.info in gameCfg) {
-                    res.json(gameCfg[req.params.info]);
+                if (req.params.info in game.cfg) {
+                    res.json(game.cfg[req.params.info]);
                 } else {
                     res.sendStatus(404);
                 }
