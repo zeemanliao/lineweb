@@ -91,6 +91,7 @@ app.use(function(req, res, next) {
     } else if (req.session.user) {
         req.user = req.session.user;
     }
+    console.log(req.session);
     res.locals.user = req.user;
     next();
 });
@@ -98,7 +99,8 @@ app.use(function(req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 if (isDEV) {
-    app.use('/auth', require('./routes/authDEV')(app));
+    //app.use('/auth', require('./routes/authDEV')(app));
+    app.use('/auth', auth);
     app.all('/api/*', function(req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "X-Requested-With");

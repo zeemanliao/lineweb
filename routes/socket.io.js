@@ -25,8 +25,8 @@ module.exports = function(io, app) {
 
     io.sockets.on('connection', function(socket) {
         let user = null;
-        if (socket.handshake.session && socket.handshake.session.user) {
-            user = socket.handshake.session.user;
+        if (socket.handshake.session.passport && socket.handshake.session.passport.user) {
+            user = socket.handshake.session.passport.user;
             user.last = new Date().getTime();
             chatUsers[user.id] = user;
         }
