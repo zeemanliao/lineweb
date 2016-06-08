@@ -17,7 +17,7 @@ let socketRoute = require('./routes/socket.io');
 let routes = require('./routes/index');
 let users = require('./routes/users');
 let auth = require('./routes/auth');
-let game = require('./game');
+
 let app = express();
 let io = require('socket.io')();
 
@@ -40,7 +40,6 @@ let mongoSession = session({
 });
 
 app.locals.config = cfg;
-app.locals.game = game;
 app.io = io;
 
 if (isDEV) {
