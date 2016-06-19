@@ -3,18 +3,14 @@
 
 <head>
     <title>Hero</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=big5">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="person web site">
-    <meta name="keywords" content="zeeman">
-    <meta name="author" content="zeemanliao">
-    <link href="/dist/css/bootstrap.css" rel="stylesheet">
-    <link href="/stylesheets/game.css" rel="stylesheet">
-    <script data-main="javascripts/game" src="javascripts/requirejs.js"></script>
+    <% include ../partials/head %>
+        <link href="stylesheets/game.css" rel="stylesheet">
+        <script data-main="javascripts/game.js" src="javascripts/requirejs.js"></script>
 </head>
 
 <body>
+    <h3></h3>
+    <token data="<%= token%>"></token>
     <label></label>
     <div>
         <button class="btn btn-primary">Test2</button>

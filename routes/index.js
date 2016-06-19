@@ -2,6 +2,7 @@
 let express = require('express');
 let router = express.Router();
 
+
 /* GET home page. */
 router.get('/', function(req, res) {
     if (req.session.callBackUrl) {
@@ -23,14 +24,6 @@ router.get('/epa', function(req, res) {
     res.render('pages/epa');
 });
 
-router.get('/game', function(req, res) {
-    if (req.user) {
-        res.render('pages/game');
-    } else {
-        req.session.callBackUrl = req.url;
-        res.render('pages/login');
-    }
-});
 
 router.get('/test', function(req, res) {
     req.session.callBackUrl = req.url;

@@ -16,17 +16,18 @@ require.config({
 
 
 require(['jquery', 'socket.io', 'ie10-viewport-hack', 'ie-emulation-modes'], function($, io) {
-    $.ajax({
-        type: 'GET',
-        url: '/API/game/all',data: { page: 1, limit: 3 },
+    var socket = io('http://localhost:4321');
+    socket.on('chara', function(data) {
+        console.log(data);
 
-        dataType: 'json',
-        success: function(data) {
-            console.log(data);
-        },
-        error: function(jqXHR, statusText) {
-            showError(statusText)
-        }
+    });
+
+    socket.on('regist', function(data) {
+        console.log('regist');
+    });
+
+    socket.on('error', function(data) {
+        showError(data.message);
     });
 
     function showError(msg) {
@@ -34,4 +35,7 @@ require(['jquery', 'socket.io', 'ie10-viewport-hack', 'ie-emulation-modes'], fun
 
         console.log(msg);
     }
+
+    var token = $('token').attr("data");
+    socket.emit('login', { token: token });
 });

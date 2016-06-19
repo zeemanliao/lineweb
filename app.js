@@ -17,13 +17,13 @@ let socketRoute = require('./routes/socket.io');
 let routes = require('./routes/index');
 let users = require('./routes/users');
 let auth = require('./routes/auth');
-
+let cfg = require('./config.json');
 let app = express();
 let io = require('socket.io')();
 
 let errorHandler = require('./lib/errorHandler');
 //let expiryDate = new Date(Date.now() + 10 * 60 * 60 * 1000); // 
-let cfg = require('./config.json');
+
 let mongoSession = session({
     secret: cfg.secret,
     resave: false, //don't save session if unmodified
@@ -41,7 +41,6 @@ let mongoSession = session({
 
 app.locals.config = cfg;
 app.io = io;
-
 if (isDEV) {
     cfg.db.mongodb.server = 'localhost';
 }
@@ -90,25 +89,23 @@ app.use(function(req, res, next) {
     } else if (req.session.user) {
         req.user = req.session.user;
     }
-    console.log(req.session);
     res.locals.user = req.user;
     next();
 });
-
 app.use('/', routes);
 app.use('/users', users);
 if (isDEV) {
-    //app.use('/auth', require('./routes/authDEV')(app));
-    app.use('/auth', auth);
+    app.use('/auth', require('./routes/authDEV')(app));
     app.all('/api/*', function(req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'X-Requested-With');
         next();
     });
 } else {
     app.use('/auth', auth);
 }
 require('./routes/api')(app);
+require('./routes/game')(app);
 
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
