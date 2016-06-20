@@ -24,6 +24,15 @@ router.get('/epa', function(req, res) {
     res.render('pages/epa');
 });
 
+router.get('/game', function(req, res) {
+    req.session.callBackUrl = req.url;
+    if (!req.user) {
+        res.render('pages/login');
+    } else {
+        res.render('pages/game');
+    }
+    
+});
 
 router.get('/test', function(req, res) {
     req.session.callBackUrl = req.url;
